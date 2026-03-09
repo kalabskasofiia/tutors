@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TutorsDomain/TutorsDomain.csproj" />
+  <Project Path="TutorsInfrastructure/TutorsInfrastructure.csproj" />
+</Solution>
