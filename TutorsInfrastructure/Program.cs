@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using TutorsInfrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ІстпContext>(option =>
+    option.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 
 var app = builder.Build();
 
@@ -22,8 +30,6 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Вчитель}/{action=Index}/{id?}");
 
 app.Run();

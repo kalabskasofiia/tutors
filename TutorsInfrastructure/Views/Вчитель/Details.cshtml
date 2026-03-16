@@ -1,0 +1,56 @@
+﻿@model TutorsDomain.Model.Вчитель
+@{
+    ViewData["Title"] = "Деталі вчителя";
+}
+<h1>Деталі вчителя</h1>
+<div>
+    <h4>Вчитель</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Email)</dd>
+        <dt class="col-sm-2">ПІБ</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Піб)</dd>
+        <dt class="col-sm-2">Профіль</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Профіль)</dd>
+    </dl>
+</div>
+<h4>Учні цього вчителя</h4>
+<hr />
+<p>
+    <a asp-controller="Учень" asp-action="Create"
+       asp-route-teacherId="@Model.Id"
+       class="btn btn-primary">Додати нового учня</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ПІБ</th>
+            <th>Email</th>
+            <th>Клас</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var учень in Model.Ученьs)
+        {
+            <tr>
+                <td>@учень.Піб</td>
+                <td>@учень.Email</td>
+                <td>@учень.Клас</td>
+                <td>
+                    <a asp-controller="Учень" asp-action="Details"
+                       asp-route-id="@учень.Id">Деталі</a> |
+                    <a asp-controller="Учень" asp-action="Edit"
+                       asp-route-id="@учень.Id">Редагувати</a> |
+                    <a asp-controller="Учень" asp-action="Delete"
+                       asp-route-id="@учень.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Редагувати</a> |
+    <a asp-action="Index">Назад до списку</a>
+</div>

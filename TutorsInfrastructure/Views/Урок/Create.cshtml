@@ -1,0 +1,40 @@
+﻿@model TutorsDomain.Model.Урок
+@{
+    ViewData["Title"] = "Створення уроку";
+}
+<h1>Створення уроку</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="StudentId" value="@ViewBag.StudentId" />
+            <input type="hidden" name="TeacherId" value="@ViewBag.TeacherId" />
+            <div class="form-group mb-3">
+                <label asp-for="Тема" class="control-label">Тема</label>
+                <input asp-for="Тема" class="form-control" />
+                <span asp-validation-for="Тема" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Дата" class="control-label">Дата</label>
+                <input asp-for="Дата" type="date" class="form-control" />
+                <span asp-validation-for="Дата" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="ТривалістьУроку" class="control-label">Тривалість (хв, макс 120)</label>
+                <input asp-for="ТривалістьУроку" type="number" min="1" max="120" class="form-control" />
+                <span asp-validation-for="ТривалістьУроку" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Створити" class="btn btn-primary" />
+                <a asp-controller="Учень" asp-action="Details"
+                   asp-route-id="@ViewBag.StudentId" class="btn btn-secondary">Назад</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

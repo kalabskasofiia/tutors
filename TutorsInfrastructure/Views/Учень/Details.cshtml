@@ -1,0 +1,66 @@
+﻿@model TutorsDomain.Model.Учень
+@{
+    ViewData["Title"] = "Деталі учня";
+}
+<h1>Деталі учня</h1>
+<div>
+    <h4>Учень</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Email)</dd>
+        <dt class="col-sm-2">ПІБ</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Піб)</dd>
+        <dt class="col-sm-2">Клас</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Клас)</dd>
+        <dt class="col-sm-2">Вчитель</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Teacher.Піб)</dd>
+    </dl>
+</div>
+<div class="mb-3">
+    @if (Model.ЖурналУспішності != null)
+    {
+        <a asp-controller="ЖурналУспішності" asp-action="Details"
+           asp-route-id="@Model.ЖурналУспішності.Id"
+           class="btn btn-info">Журнал успішності</a>
+    }
+</div>
+
+<h4>Уроки цього учня</h4>
+<hr />
+<p>
+    <a asp-controller="Урок" asp-action="Create"
+       asp-route-studentId="@Model.Id"
+       asp-route-teacherId="@Model.TeacherId"
+       class="btn btn-primary">Додати урок</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Тема</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Тривалість</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var урок in Model.Урокs)
+        {
+            <tr>
+                <td>@урок.Тема</td>
+                <td>@урок.Дата</td>
+                <td>@урок.СтатусУроку</td>
+                <td>@урок.ТривалістьУроку хв</td>
+                <td>
+                    <a asp-controller="Урок" asp-action="Details"
+                       asp-route-id="@урок.Id">Деталі</a> |
+                    <a asp-controller="Урок" asp-action="Edit"
+                       asp-route-id="@урок.Id">Редагувати</a> |
+                    <a asp-controller="Урок" asp-action="Delete"
+                       asp-route-id="@урок.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

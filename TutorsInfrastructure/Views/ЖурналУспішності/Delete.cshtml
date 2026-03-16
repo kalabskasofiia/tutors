@@ -1,0 +1,18 @@
+﻿@model TutorsDomain.Model.ЖурналУспішності
+@{
+    ViewData["Title"] = "Видалити журнал";
+}
+<h1>Видалити журнал?</h1>
+<div>
+    <h4>Журнал успішності</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Учень</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Student.Піб)</dd>
+    </dl>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Видалити" class="btn btn-danger" /> |
+        <a asp-action="Index">Назад</a>
+    </form>
+</div>

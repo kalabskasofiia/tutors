@@ -1,0 +1,48 @@
+﻿@model TutorsDomain.Model.Завдання
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Завдання</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ОписЗавдання)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ОписЗавдання)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Дедлайн)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Дедлайн)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ДатаЗдачі)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ДатаЗдачі)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ТипЗавдання)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ТипЗавдання)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Lesson)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Lesson.Тема)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,36 @@
+﻿@model TutorsDomain.Model.Матеріали
+@{
+    ViewData["Title"] = "Додати матеріал";
+}
+<h1>Додати матеріал</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="LessonId" value="@ViewBag.LessonId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Назва" class="control-label">Назва матеріалу</label>
+                <input asp-for="Назва" class="form-control" />
+                <span asp-validation-for="Назва" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Файл з теорією</label>
+                <input type="file" name="файл" class="form-control"
+                       accept=".pdf,.doc,.docx,.txt,.jpg,.png,.ppt,.pptx" />
+                <small class="text-muted">Дозволені формати: PDF, Word, TXT, зображення, PowerPoint</small>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Додати" class="btn btn-primary" />
+                <a asp-controller="Урок" asp-action="Details"
+                   asp-route-id="@ViewBag.LessonId" class="btn btn-secondary">Назад</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

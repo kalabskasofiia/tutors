@@ -1,0 +1,34 @@
+﻿@model TutorsDomain.Model.Оцінка
+@{
+    ViewData["Title"] = "Додати оцінку";
+}
+<h1>Додати оцінку</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="GradebookId" value="@ViewBag.GradebookId" />
+
+            <div class="form-group mb-3">
+                <label class="control-label">Завдання</label>
+                <select asp-for="AssigmentId" class="form-control" asp-items="ViewBag.AssigmentId">
+                    <option value="">-- Оберіть завдання --</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Бал" class="control-label">Бал</label>
+                <input asp-for="Бал" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="МаксимальнийБал" class="control-label">Максимальний бал</label>
+                <input asp-for="МаксимальнийБал" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
+                <a asp-controller="ЖурналУспішності" asp-action="Details"
+                   asp-route-id="@ViewBag.GradebookId" class="btn btn-secondary">Назад</a>
+            </div>
+        </form>
+    </div>
+</div>

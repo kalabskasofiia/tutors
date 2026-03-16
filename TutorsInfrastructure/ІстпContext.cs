@@ -17,35 +17,22 @@ public partial class ІстпContext : DbContext
     }
 
     public virtual DbSet<Вчитель> Вчительs { get; set; }
-
     public virtual DbSet<ЖурналУспішності> ЖурналУспішностіs { get; set; }
-
     public virtual DbSet<Завдання> Завданняs { get; set; }
-
     public virtual DbSet<Матеріали> Матеріалиs { get; set; }
-
     public virtual DbSet<Оцінка> Оцінкаs { get; set; }
-
     public virtual DbSet<Урок> Урокs { get; set; }
-
     public virtual DbSet<Учень> Ученьs { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost; Port=5432; Database=істп; Username=postgres; Password=42534253;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Вчитель>(entity =>
         {
-            entity.HasKey(e => e.TeacherId).HasName("Вчитель_pkey");
-
+            entity.HasKey(e => e.Id).HasName("Вчитель_pkey");
             entity.ToTable("Вчитель");
-
             entity.HasIndex(e => e.Email, "Вчитель_email_key").IsUnique();
-
-            entity.Property(e => e.TeacherId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.Id)
+                .UseSerialColumn()
                 .HasColumnName("teacher_id");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
@@ -58,37 +45,26 @@ public partial class ІстпContext : DbContext
 
         modelBuilder.Entity<ЖурналУспішності>(entity =>
         {
-            entity.HasKey(e => e.GradebookId).HasName("Журнал_успішності_pkey");
-
+            entity.HasKey(e => e.Id).HasName("Журнал_успішності_pkey");
             entity.ToTable("Журнал_успішності");
-
             entity.HasIndex(e => e.StudentId, "uq_журнал_учень").IsUnique();
-
-            entity.Property(e => e.GradebookId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("gradebook_id");
-            entity.Property(e => e.AssigmentId).HasColumnName("assigment_id");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
-
-            entity.HasOne(d => d.Assigment).WithMany(p => p.ЖурналУспішностіs)
-                .HasForeignKey(d => d.AssigmentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_журнал_завдання");
 
             entity.HasOne(d => d.Student).WithOne(p => p.ЖурналУспішності)
                 .HasForeignKey<ЖурналУспішності>(d => d.StudentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_журнал_учень");
         });
 
         modelBuilder.Entity<Завдання>(entity =>
         {
-            entity.HasKey(e => e.AssigmentId).HasName("Завдання_pkey");
-
+            entity.HasKey(e => e.Id).HasName("Завдання_pkey");
             entity.ToTable("Завдання");
-
-            entity.Property(e => e.AssigmentId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("assigment_id");
             entity.Property(e => e.LessonId).HasColumnName("lesson_id");
             entity.Property(e => e.ДатаЗдачі).HasColumnName("Дата_здачі");
@@ -96,41 +72,46 @@ public partial class ІстпContext : DbContext
             entity.Property(e => e.ТипЗавдання)
                 .HasMaxLength(100)
                 .HasColumnName("Тип_завдання");
+            entity.Property(e => e.ФайлШлях)
+                .HasMaxLength(500)
+                .HasColumnName("ФайлШлях");
+            entity.Property(e => e.ФайлУчня)
+                .HasMaxLength(500)
+                .HasColumnName("ФайлУчня");
 
             entity.HasOne(d => d.Lesson).WithMany(p => p.Завданняs)
                 .HasForeignKey(d => d.LessonId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_завдання_урок");
         });
 
         modelBuilder.Entity<Матеріали>(entity =>
         {
-            entity.HasKey(e => e.MaterialId).HasName("Матеріали_pkey");
-
+            entity.HasKey(e => e.Id).HasName("Матеріали_pkey");
             entity.ToTable("Матеріали");
-
-            entity.Property(e => e.MaterialId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("material_id");
             entity.Property(e => e.LessonId).HasColumnName("lesson_id");
+            entity.Property(e => e.Назва)
+                .HasMaxLength(255)
+                .HasColumnName("Назва");
             entity.Property(e => e.ФайлЗТеорією)
                 .HasMaxLength(500)
                 .HasColumnName("Файл_з_теорією");
 
             entity.HasOne(d => d.Lesson).WithMany(p => p.Матеріалиs)
                 .HasForeignKey(d => d.LessonId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_матеріали_урок");
         });
 
         modelBuilder.Entity<Оцінка>(entity =>
         {
-            entity.HasKey(e => e.MarkId).HasName("Оцінка_pkey");
-
+            entity.HasKey(e => e.Id).HasName("Оцінка_pkey");
             entity.ToTable("Оцінка");
-
-            entity.Property(e => e.MarkId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("mark_id");
             entity.Property(e => e.AssigmentId).HasColumnName("assigment_id");
             entity.Property(e => e.GradebookId).HasColumnName("gradebook_id");
@@ -141,24 +122,23 @@ public partial class ІстпContext : DbContext
 
             entity.HasOne(d => d.Assigment).WithMany(p => p.Оцінкаs)
                 .HasForeignKey(d => d.AssigmentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_оцінка_завдання");
 
             entity.HasOne(d => d.Gradebook).WithMany(p => p.Оцінкаs)
                 .HasForeignKey(d => d.GradebookId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_оцінка_журнал");
         });
 
         modelBuilder.Entity<Урок>(entity =>
         {
-            entity.HasKey(e => e.LessonId).HasName("Урок_pkey");
-
+            entity.HasKey(e => e.Id).HasName("Урок_pkey");
             entity.ToTable("Урок");
-
-            entity.Property(e => e.LessonId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.Id)
+                .UseSerialColumn()
                 .HasColumnName("lesson_id");
+            entity.Property(e => e.Дата).HasColumnName("Дата");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
             entity.Property(e => e.СтатусУроку)
@@ -169,25 +149,22 @@ public partial class ІстпContext : DbContext
 
             entity.HasOne(d => d.Student).WithMany(p => p.Урокs)
                 .HasForeignKey(d => d.StudentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_урок_учень");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.Урокs)
                 .HasForeignKey(d => d.TeacherId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_урок_вчитель");
         });
 
         modelBuilder.Entity<Учень>(entity =>
         {
-            entity.HasKey(e => e.StudentId).HasName("Учень_pkey");
-
+            entity.HasKey(e => e.Id).HasName("Учень_pkey");
             entity.ToTable("Учень");
-
             entity.HasIndex(e => e.Email, "Учень_email_key").IsUnique();
-
-            entity.Property(e => e.StudentId)
-                .ValueGeneratedNever()
+            entity.Property(e => e.Id)
+                .UseSerialColumn()
                 .HasColumnName("student_id");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
@@ -200,7 +177,7 @@ public partial class ІстпContext : DbContext
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.Ученьs)
                 .HasForeignKey(d => d.TeacherId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_учень_вчитель");
         });
 
