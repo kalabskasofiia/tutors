@@ -1,0 +1,133 @@
+﻿@model TutorsDomain.Model.Урок
+@{
+    ViewData["Title"] = "Деталі уроку";
+}
+<h1>Деталі уроку</h1>
+<div>
+    <h4>Урок</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Тема</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Тема)</dd>
+        <dt class="col-sm-2">Дата</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Дата)</dd>
+        <dt class="col-sm-2">Статус</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.СтатусУроку)</dd>
+        <dt class="col-sm-2">Тривалість (хв)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.ТривалістьУроку)</dd>
+        <dt class="col-sm-2">Учень</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Student.Email)</dd>
+        <dt class="col-sm-2">Вчитель</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Teacher.Email)</dd>
+    </dl>
+</div>
+<div class="mb-3">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Редагувати</a>
+    <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger">Видалити</a>
+    <a asp-action="Index" class="btn btn-secondary">Назад до списку</a>
+</div>
+
+<h4>Завдання цього уроку</h4>
+<hr />
+<p>
+    <a asp-controller="Завдання" asp-action="Create"
+       asp-route-lessonId="@Model.Id" class="btn btn-primary">Додати завдання</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Опис</th>
+            <th>Дедлайн</th>
+            <th>Дата здачі</th>
+            <th>Тип</th>
+            <th>Файл завдання</th>
+            <th>Робота учня</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var завдання in Model.Завданняs)
+        {
+            <tr>
+                <td>@завдання.ОписЗавдання</td>
+                <td>@завдання.Дедлайн</td>
+                <td>@завдання.ДатаЗдачі</td>
+                <td>@завдання.ТипЗавдання</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(завдання.ФайлШлях))
+                    {
+                        <a href="@завдання.ФайлШлях" target="_blank">Завантажити</a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Немає</span>
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(завдання.ФайлУчня))
+                    {
+                        <a href="@завдання.ФайлУчня" target="_blank">Переглянути</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Завдання" asp-action="ЗдатиРоботу"
+                           asp-route-id="@завдання.Id" class="btn btn-sm btn-success">Здати роботу</a>
+                    }
+                </td>
+                <td>
+                    <a asp-controller="Завдання" asp-action="Details"
+                       asp-route-id="@завдання.Id">Деталі</a> |
+                    <a asp-controller="Завдання" asp-action="Edit"
+                       asp-route-id="@завдання.Id">Редагувати</a> |
+                    <a asp-controller="Завдання" asp-action="Delete"
+                       asp-route-id="@завдання.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>Матеріали цього уроку</h4>
+<hr />
+<p>
+    <a asp-controller="Матеріали" asp-action="Create"
+       asp-route-lessonId="@Model.Id" class="btn btn-primary">Додати матеріал</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Файл</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var матеріал in Model.Матеріалиs)
+        {
+            <tr>
+                <td>@матеріал.Назва</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(матеріал.ФайлЗТеорією))
+                    {
+                        <a href="@матеріал.ФайлЗТеорією" target="_blank">Завантажити</a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Немає файлу</span>
+                    }
+                </td>
+                <td>
+                    <a asp-controller="Матеріали" asp-action="Details"
+                       asp-route-id="@матеріал.Id">Деталі</a> |
+                    <a asp-controller="Матеріали" asp-action="Delete"
+                       asp-route-id="@матеріал.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Редагувати</a>
+    <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger">Видалити</a>
+    <a asp-action="Index" class="btn btn-secondary">Назад до списку</a>
+</div>

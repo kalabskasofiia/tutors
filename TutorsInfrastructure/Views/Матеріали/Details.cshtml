@@ -1,0 +1,30 @@
+﻿@model TutorsDomain.Model.Матеріали
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Матеріали</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ФайлЗТеорією)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ФайлЗТеорією)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Lesson)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Lesson.Тема)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

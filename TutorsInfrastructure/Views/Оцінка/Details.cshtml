@@ -1,0 +1,42 @@
+﻿@model TutorsDomain.Model.Оцінка
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Оцінка</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Бал)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Бал)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.МаксимальнийБал)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.МаксимальнийБал)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Assigment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Assigment.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Gradebook)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Gradebook.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

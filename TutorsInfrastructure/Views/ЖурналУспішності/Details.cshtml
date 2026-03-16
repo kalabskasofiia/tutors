@@ -1,0 +1,37 @@
+﻿@model TutorsDomain.Model.ЖурналУспішності
+@{
+    ViewData["Title"] = "Журнал успішності";
+}
+<h1>Журнал успішності</h1>
+<div>
+    <h4>Учень: @Model.Student.Піб</h4>
+    <hr />
+</div>
+<h4>Оцінки</h4>
+<p>
+    <a asp-controller="Оцінка" asp-action="Create"
+       asp-route-gradebookId="@Model.Id"
+       class="btn btn-primary">Додати оцінку</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Завдання</th>
+            <th>Бал</th>
+            <th>Максимальний бал</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var оцінка in Model.Оцінкаs)
+        {
+            <tr>
+                <td>@оцінка.Assigment?.ОписЗавдання</td>
+                <td>@оцінка.Бал</td>
+                <td>@оцінка.МаксимальнийБал</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">Назад до списку</a>
+</div>
